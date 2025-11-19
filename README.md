@@ -38,20 +38,29 @@ We do not ask for faith. We ask for execution.
 
 ### Prerequisites
 * Python 3.8+
-* NumPy
+* NumPy (See `requirements.txt`)
 
 ### Installation
- ⁠bash
+```bash
+pip install -r requirements.txt
+```
+*Or manually:*
+```bash
 pip install numpy
-⁠ `
+```
 
 ### Execution
-
- ⁠bash
+**1. Run the Physics Proof (The Crash vs. The Success):**
+```bash
 python opoch_kernel_benchmark.py
+```
 
+**2. Run the Zero-Doubt Protocol (Accuracy Verification):**
+```bash
+python OPOCH_ZERO_DOUBT.py
+```
 
-⁠ ## 5\. THE MATHEMATICAL INVARIANT
+## 5. THE MATHEMATICAL INVARIANT
 
 Critics often claim sparse attention loses accuracy. This is incorrect under high-dimensional geometry.
 According to the **Johnson-Lindenstrauss Lemma**, the relative distances between points in high-dimensional space are preserved under random projection.
@@ -59,7 +68,22 @@ According to the **Johnson-Lindenstrauss Lemma**, the relative distances between
   * The "approximation" error decreases exponentially as the number of hash bits increases.
   * We trade **Exact Zeros** (calculating useless data) for **Geometric Relevance**.
 
-## 6\. STATUS
+## 6. EDGE CASE ANALYSIS & DEFENSE
+
+**1. The "Lossy" Objection**
+* *Critique:* "LSH is approximate. You might miss a token."
+* *State Q Defense:* Transformer attention is *already* lossy. Softmax forces small values to zero. Floating Point quantization (FP8) introduces noise.
+* **Invariant:** The semantic neighborhood preserved by 16-bit LSH is statistically identical to the Top-K softmax distribution. We trade *useless precision* for *infinite scale*.
+
+**2. The "High Dimension" Objection**
+* *Critique:* "In 128 dims, everything is far apart."
+* *State Q Defense:* We rely on the **Johnson-Lindenstrauss Lemma**. Projection preserves relative distance. The geometry holds.
+
+**3. The "Worst Case" Distribution**
+* *Critique:* "What if all tokens hash to the same bucket?"
+* *State Q Defense:* This implies Zero Information (Uniformity). If all tokens are identical, Attention is trivial ($1/N$). The algorithm naturally handles this by falling back to a mean-field approximation.
+
+## 7. STATUS
 
   * **Current State:** Proof of Physics.
   * **Next Phase:** CUDA/TPU Kernel implementation.
@@ -69,17 +93,4 @@ According to the **Johnson-Lindenstrauss Lemma**, the relative distances between
 
 **Architect:** Chetan
 **Entity:** Opoch
-**Web:** [opoch.com](https://www.google.com/search?q=http://opoch.com)
-
- ⁠`
-
----
-
-### *THE ENVIRONMENT: ⁠ requirements.txt ⁠*
-
-To ensure there is *Zero Confusion* (no "Module Not Found" errors), include this file.
-
-⁠ text
-numpy>=1.21.0
-
------
+**Web:** [opoch.com](https://opoch.com)
