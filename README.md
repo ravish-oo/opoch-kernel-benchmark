@@ -1,4 +1,4 @@
-# OPOCH KERNEL: GEOMETRIC ATTENTION BENCHMARK (v1.0)
+# OPOCH KERNEL: GEOMETRIC ATTENTION BENCHMARK
 
 ### "We replaced Heat with Geometry."
 
@@ -25,13 +25,21 @@ We apply **Geometric Hashing (Locality Sensitive Hashing via Random Hyperplanes)
 * **Physics:** Low Entropy. To double the context window, you only double the energy.
 
 ## 3. THE BENCHMARK
-This repository contains a physical proof (`opoch_kernel_benchmark.py`) comparing the two architectures on a standard consumer CPU.
+This repository contains two distinct proofs:
 
-### Scenario: 1 Million Token Context
+### A. The Physics Proof (`opoch_kernel_benchmark.py`)
+A minimal, ruthless demonstration of the "Thermodynamic Wall." It simulates the memory allocation required for 1 Million tokens.
+
 | Architecture | Complexity | Memory Req | Hardware Result |
 | :--- | :--- | :--- | :--- |
 | **Legacy (Standard Attention)** | $O(N^2)$ | ~4,000 GB | **CRASH (Segfault / OOM)** |
 | **Opoch (Geometric Kernel)** | $O(N)$ | ~0.1 GB | **SUCCESS (< 0.5s)** |
+
+### B. The Accuracy Verification (`OPOCH_ZERO_DOUBT.py`)
+A rigorous parameter sweep proving that Opoch is not just fast, but **correct**. It plants a "Needle in a Haystack" and verifies retrieval accuracy at scale.
+
+*   **Goal:** Prove we can trade **Heat ($N^2$)** for **Geometry ($N \cdot \text{bits}$)** without losing the signal.
+*   **Metric:** We measure **Signal Amplification**—how much more relevant the retrieved candidates are compared to random noise (typically 100x-500x).
 
 ## 4. HOW TO VERIFY
 We do not ask for faith. We ask for execution.
@@ -59,6 +67,14 @@ python opoch_kernel_benchmark.py
 ```bash
 python OPOCH_ZERO_DOUBT.py
 ```
+
+### Interpreting the Output
+The script will perform a parameter sweep (balancing bits vs. tables) and output a table with the following metrics:
+
+*   **SPEEDUP (x):** The wall-clock advantage over the projected Transformer time.
+*   **MEM SAVE (x):** The factor of RAM reduction (e.g., 12,000x).
+*   **RECALL@50:** Percentage of the true top-50 neighbors found in the geometric bucket.
+*   **SIGNAL AMPLIFICATION:** How much "purer" the candidate set is compared to random tokens.
 
 ## 5. THE MATHEMATICAL INVARIANT
 
